@@ -1,0 +1,23 @@
+- name: "URL that should fail on pod {{ item.metadata.name }}"
+  kubernetes.core.k8s_exec:
+    namespace: "{{ ns }}"
+    pod: "{{ item.metadata.name }}"
+    command: "curl -s {{ url }} -m 2 -I"
+  register: output
+  failed_when: output.rc == 0
+  changed_when: false
+  loop: "{{ forbidden_url }}"
+  loop_control:
+    loop_var: url
+
+- name: "URL that should work on pod {{ item.metadata.name }}"
+  kubernetes.core.k8s_exec:
+    namespace: "{{ ns }}"
+    pod: "{{ item.metadata.name }}"
+    command: "curl -s {{ url }} -m 2 -I"
+  register: output
+  failed_when: output.rc != 0
+  changed_when: false
+  loop: "{{ authorized_url }}"
+  loop_control:
+    loop_var: url

@@ -1,0 +1,38 @@
+--- 
+- hosts: localhost
+  name: test isolation
+  gather_facts: false
+  vars:
+    ns: test-network-policy
+    authorized_url:
+      - https://quay.io
+      - http://webserver:8080
+    forbidden_url:
+      - https://google.com
+      - https://kubernetes.default
+        
+  tasks:
+
+    - name: Create namespace
+      kubernetes.core.k8s:
+        name: "{{ ns }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Apply manifest
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ ns }}"
+        src: app.yml
+
+    - name: Get a list pods in namespace
+      kubernetes.core.k8s_info:
+        kind: Pod
+        namespace: "{{ ns }}"
+      register: pod_list
+
+    - name: Test urls
+      include_tasks: check_curl.yml
+      loop: "{{ pod_list.resources }}"
+      no_log: true
