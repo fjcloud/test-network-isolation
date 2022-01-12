@@ -2,10 +2,10 @@
 
 ## Prerequisites
 
-```sh # yum install ansible```
+```shell # yum install ansible```
 
 ```sh $ ansible-galaxy collection install community.kubernetes cloud.common```
 
 ## Execute
 
-```sh $ ansible-playbook test-isolation.yml```
+```shell $ ansible-playbook test-isolation.yml```
