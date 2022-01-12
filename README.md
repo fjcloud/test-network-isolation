@@ -4,7 +4,7 @@
 
 ```# yum install ansible```
 
-```sh $ ansible-galaxy collection install community.kubernetes cloud.common```
+```$ ansible-galaxy collection install community.kubernetes cloud.common```
 
 ## Execute
 
