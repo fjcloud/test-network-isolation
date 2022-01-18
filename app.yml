@@ -30,6 +30,8 @@ spec:
           port: 5353
     - to:
         - podSelector: {}
+        - ipBlock:
+            cidr: 0.0.0.0/0
   policyTypes:
     - Egress
 
