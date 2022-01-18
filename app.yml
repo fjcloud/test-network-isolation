@@ -9,15 +9,7 @@ spec:
       dnsName: quay.io
     ports: 
       - port: 443
-        protocol: TCP
-  - type: Allow
-    to:
-      cidrSelector: 172.30.0.10/32
-    ports: 
-      - port: 53
-        protocol: TCP
-      - port: 53
-        protocol: UDP        
+        protocol: TCP    
   - type: Deny
     to:
       cidrSelector: 0.0.0.0/0
@@ -33,6 +25,27 @@ spec:
   egress:
     - to:
         - podSelector: {}
+  policyTypes:
+    - Egress
+    
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-openshift-dns
+spec:
+  podSelector: {}
+  egress:
+    - ports:
+        - protocol: TCP
+          port: 5353
+        - protocol: UDP
+          port: 5353
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: openshift-dns
   policyTypes:
     - Egress
 
