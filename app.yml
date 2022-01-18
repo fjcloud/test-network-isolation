@@ -10,6 +10,11 @@ spec:
     ports: 
       - port: 443
         protocol: TCP
+  - type: Allow
+    to:
+      cidrSelector: 172.30.0.10/32
+    ports: 
+      - port: 53
   - type: Deny
     to:
       cidrSelector: 0.0.0.0/0
@@ -23,15 +28,8 @@ metadata:
 spec:
   podSelector: {}
   egress:
-    - ports:
-        - protocol: TCP
-          port: 5353
-        - protocol: UDP
-          port: 5353
     - to:
         - podSelector: {}
-        - ipBlock:
-            cidr: 0.0.0.0/0
   policyTypes:
     - Egress
 
