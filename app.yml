@@ -47,7 +47,7 @@ spec:
             matchLabels:
               kubernetes.io/metadata.name: openshift-dns
         - ipBlock:
-            cidr: 0.0.0.0/0
+            cidr: 10.128.0.0/14
   policyTypes:
     - Egress
 
