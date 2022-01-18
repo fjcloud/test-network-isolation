@@ -15,6 +15,9 @@ spec:
       cidrSelector: 172.30.0.10/32
     ports: 
       - port: 53
+        protocol: TCP
+      - port: 53
+        protocol: UDP        
   - type: Deny
     to:
       cidrSelector: 0.0.0.0/0
@@ -24,7 +27,7 @@ spec:
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: default-deny-internal-traffic
+  name: allow-to-same-namespace
 spec:
   podSelector: {}
   egress:
@@ -70,7 +73,7 @@ spec:
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-same-namespace
+  name: allow-from-same-namespace
 spec:
   podSelector:
   ingress:
